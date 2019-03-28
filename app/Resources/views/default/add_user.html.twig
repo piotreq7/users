@@ -3,42 +3,22 @@
 {% block body %}
 <div class="container">
 
-    <div class="form-group ">
+<br>
+    <p> Nowy użytkownik</p>
 
-        <label for="post_title">Username</label>
-        <input type="text" class="form-control" name="user_username">
+    <h1>{{ error }}</h1>
+    {{ form_start(form) }}
+    {#{{ form_widget(form.search,{attr : {placeholder:'imie'}}) }}#}
+    {{ form_errors(form) }}
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+    <a href="users">
+        <input type="button" value="Anuluj" class="btn btn-danger" />
+    </a>
 
-    </div>
-    <div class="form-group">
-
-        <label for="post_title">Imię</label>
-        <input type="text" class="form-control" name="user_firstname">
-
-    </div>
-
-
-    <div class="form-group">
-
-        <label for="post_title">Nazwisko</label>
-        <input type="text" class="form-control" name="user_lastname">
-
-    </div>
+    {{ form_end(form) }}
 
 
-    <div class="form-group">
 
-        <label for="post_title">Hasło</label>
-        <input type="password" class="form-control" name="user_password">
-
-    </div>
-
-
-    <div class="form-group">
-
-        <input type="submit" class="btn btn-primary" name="create_user" value="Utwórz użytkownika">
-    </div>
-
-</div>
 
 {% endblock %}
 

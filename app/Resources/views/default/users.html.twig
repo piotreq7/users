@@ -30,6 +30,7 @@
         <table class="table">
             <tr>
                 <th>Id</th>
+                <th>Login</th>
                 <th>Imię</th>
                 <th>nazwisko</th>
                 <th>Hasło</th>
@@ -42,7 +43,10 @@
 
                 <tr>
                     <td>{{ user.id }}</td>
-                    {#<td>{{ user.firs_name }}</td>#}
+                    <td>{{ user.login }}</td>
+                    <td>{{ user.FirsName }}</td>
+                    <td>{{ user.LastName }}</td>
+                    <td>{{ user.Login }}</td>
                     <td> <a href="edit_user"><input type="button" value="Edytuj" class="btn btn-primary" /></a></td>
                     <td> <a href="edit_user"><input type="button" value="Usuń" class="btn btn-primary" /></a></td>
 

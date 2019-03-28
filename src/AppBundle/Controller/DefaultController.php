@@ -1,17 +1,5 @@
 <?php
 
-//// Include the main Propel script
-//require_once '/vendor/src/propel/runtime/lib/Propel.php';
-//
-//// Initialize Propel with the runtime configuration
-//Propel::init("/path/to/bookstore/build/conf/bookstore-conf.php");
-//
-//// Add the generated 'classes' directory to the include path
-//set_include_path("/path/to/bookstore/build/classes" . PATH_SEPARATOR . get_include_path());
-
-
-
-
 
 namespace AppBundle\Controller;
 
@@ -27,16 +15,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class DefaultController extends Controller
 {
-//    /**
-//     * @Route("/", name="homepage")
-//     */
-//    public function indexAction()
-//    {
-//
-//        return $this->render('default/index.html.twig', [
-//            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-//        ]);
-//    }
 
     /**
      * @Route("/users", name="show_users")
@@ -56,20 +34,12 @@ class DefaultController extends Controller
 
 //
 //        echo "<pre>";
-//        echo $findUser;
+//        echo $findUser = \UsersQuery::create()->find();
 //        echo "</pre>";
         $users= \UsersQuery::create()->find();
 
 
 
-
-        $cars=[
-
-            ['make'=>'BMW', 'name'=>'X1'],
-            ['make'=>'wv', 'name'=>'passa']
-
-
-        ];
 
         $form = $this->createFormBuilder()
             ->add('search',TextType::class,[
@@ -92,7 +62,6 @@ class DefaultController extends Controller
 
         return $this->render('default/users.html.twig',
             [
-                'cars'=>$cars,
                 'users'=>$users,
 
                 'form'=>$form->createView()
@@ -104,11 +73,54 @@ class DefaultController extends Controller
     /**
      * @Route("/add_user", name="add_user")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
+        $error="";
+        $form = $this->createFormBuilder()
+            ->add('login',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+            ->add('imie',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+            ->add('nazwisko',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+            ->add('haslo',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+            ->add('repeat',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+
+            ->getform();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user=$form->getData();
+
+            if(!$exist=\UsersQuery::create()->findOneByLogin($user['login']))
+            {
+
+            if($user['haslo']==$user['repeat'])
+            {
+
+                $temp=new \Users();
+                $temp->setLogin($user['login']);
+                $temp->setFirsName($user['imie']);
+                $temp->setLastName($user['nazwisko']);
+                $temp->setPassword($user['haslo']);
+
+                if(!$temp->save())
+                {
+                    die("Problem z zapisem do bazy");
+                }
+                return $this->redirectToRoute('show_users');
+            }else {
+                $error="Różne hasła";
+            }
+            }else
+                {
+                    $error="login zajęty";
+                }
+
+
+        }
+
 
         return $this->render('default/add_user.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+            'form'=>$form->createView(),
+            'error'=>$error
         ]);
     }
 

@@ -24,16 +24,11 @@
     {#<input type="hidden" name="_target_path" value="/account"/>#}
     <button type="submit">login</button>
 
-
-
     {#{% if is_granted(expression(#}
         {#'"ROLE_ADMIN" in roles or (not is_anonymous() and user.Admin())'#}
         {#)) %}#}
 
-
     {#{% endif %}#}
-
-
 
 </form>
 </div>

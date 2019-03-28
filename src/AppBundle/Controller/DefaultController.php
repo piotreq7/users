@@ -3,6 +3,7 @@
 
 namespace AppBundle\Controller;
 
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -68,8 +69,6 @@ class DefaultController extends Controller
             ->add('nazwisko',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
             ->add('haslo',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
             ->add('repeat',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
-
-
             ->getform();
 
         $form->handleRequest($request);
@@ -113,14 +112,80 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/edit_user", name="edit_user")
+     * @Route("/edit_user/{user}", name="edit_user")
      */
-    public function editAction()
+    public function editAction($user,Request $request)
     {
 
+
+        $error="";
+        $form = $this->createFormBuilder()
+//        {{ form_widget(form.name, ) }}  { 'attr': {'class': 'foo'} }
+            ->add('login',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+            ->add('imie',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+            ->add('nazwisko',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+            ->add('haslo',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+            ->add('repeat',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
+            ->getform();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $usr=$form->getData();
+
+//            if(!$exist=\UsersQuery::create()->findOneByLogin($user['login']))
+
+
+                if($usr['haslo']==$usr['repeat'])
+                {
+
+                    $temp=new \Users();
+                    $temp->setLogin($usr['login']);
+                    $temp->setFirsName($usr['imie']);
+                    $temp->setLastName($usr['nazwisko']);
+                    $temp->setPassword($usr['haslo']);
+
+                    if(!$temp->save())
+                    {
+                        die("Problem z zapisem do bazy");
+                    }
+
+                    return $this->redirectToRoute('show_users');
+                }else {
+                    $error="Różne hasła";
+                }
+
+
+
+        }
+
+
+
+
+//        return $this->render('default/edit_user.html.twig', [
+//            'user'=>$user
+//        ]);
+
         return $this->render('default/add_user.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+            'form'=>$form->createView(),
+            'error'=>$error,
+            'user'=>$user
         ]);
+    }
+
+    /**
+     * @Route("/del_user/{user}", name="del_user")
+     */
+
+
+    public function delAction($user)
+    {
+
+        $del=\UsersQuery::create()->findOneByLogin($user);
+        $del->delete();
+
+
+        return $this->redirectToRoute('show_users');
     }
 
 }

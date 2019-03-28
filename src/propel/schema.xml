@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="users" defaultIdMethod="native">
+    <table name="users" phpName="Users">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="firs_name" type="varchar" size="255" required="true" />
+        <column name="last_name" type="varchar" size="255" required="true" />
+        <column name="login" type="varchar" size="255" required="true" />
+        <column name="password" type="varchar" size="255" required="true" />
+    </table>
+</database>

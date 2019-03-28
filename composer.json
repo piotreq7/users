@@ -8,7 +8,12 @@
         },
         "classmap": [
             "app/AppKernel.php",
-            "app/AppCache.php"
+            "app/AppCache.php",
+            "src/propel/build/"
+        ],
+        "files": [ "src/propel/build/conf/users-conf.php",
+            "src/propel/build/conf/classmap-users-conf.php",
+            "vendor/propel/propel1/runtime/lib/Propel.php"
         ]
     },
     "autoload-dev": {
@@ -30,7 +35,8 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.6.4",
         "symfony/symfony": "3.4.*",
-        "twig/twig": "^1.0||^2.0"
+        "twig/twig": "^1.0||^2.0",
+        "propel/propel1": "1.7.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

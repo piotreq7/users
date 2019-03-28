@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!-- Uncomment this if you have PEAR Log installed
+    <log>
+      <type>file</type>
+      <name>/path/to/propel.log</name>
+      <ident>propel-bookstore</ident>
+      <level>7</level>
+    </log>
+    -->
+    <propel>
+        <datasources default="users">
+            <datasource id="users">
+                <adapter>pgsql</adapter> <!-- sqlite, mysql, mssql, oracle, or pgsql -->
+                <connection>
+                    <dsn>pgsql:host=192.168.1.155;dbname=users</dsn>
+                    <user>postgres</user>
+                    <password>pass123</password>
+                </connection>
+            </datasource>
+        </datasources>
+    </propel>
+</config>

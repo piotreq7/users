@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+
+    <div class="container">
+
+
+
+        {{ form_start(form,{attr:{class:'form-inline'}}) }}
+        {{ form_widget(form.search,{attr : {placeholder:'szukaj'}}) }}
+        <button type="submit" class="btn btn-primary">Szukaj</button>
+        {{ form_errors(form.search) }}
+
+
+        {{ form_end(form) }}
+
+        <a href="add_user">
+            <input type="button" value="Dodaj użytkownika" class="btn btn-primary" />
+        </a>
+
+        <a href="add_user">
+            <input type="button" value="Wyloguj" class="btn btn-primary" />
+        </a>
+
+      <br>
+
+
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Imię</th>
+                <th>nazwisko</th>
+                <th>Hasło</th>
+                <th>Edytuj</th>
+                <th>Usun</th>
+
+            </tr>
+
+            {% for user in users %}
+
+                <tr>
+                    <td>{{ user.id }}</td>
+                    {#<td>{{ user.firs_name }}</td>#}
+                    <td> <a href="edit_user"><input type="button" value="Edytuj" class="btn btn-primary" /></a></td>
+                    <td> <a href="edit_user"><input type="button" value="Usuń" class="btn btn-primary" /></a></td>
+
+                </tr>
+
+
+            {% endfor %}
+        </table>
+
+
+
+    </div>
+
+{% endblock %}
+

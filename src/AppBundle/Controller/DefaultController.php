@@ -4,6 +4,8 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,24 +23,8 @@ class DefaultController extends Controller
      */
     public function showAction(Request $request)
     {
-//        $user=new \Users();
-//        $user->setLastName('ted');
-//        $user->setFirsName('ted');
-//        $user->setLogin('tedi');
-//        $user->setPassword('tedi');
-//        $user->save();
 
-//        $findUser = \UsersQuery::create()->findOneByFirsName('ted');
-//        $findUser->setFirsName('Kamien');
-//        $findUser->delete();
-
-//
-//        echo "<pre>";
-//        echo $findUser = \UsersQuery::create()->find();
-//        echo "</pre>";
         $users= \UsersQuery::create()->find();
-
-
 
 
         $form = $this->createFormBuilder()
@@ -83,7 +69,9 @@ class DefaultController extends Controller
             ->add('haslo',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
             ->add('repeat',TextType::class,['constraints'=>[new NotBlank(),new Length(['min'=>2])]])
 
+
             ->getform();
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

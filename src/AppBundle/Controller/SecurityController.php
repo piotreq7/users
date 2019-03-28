@@ -10,6 +10,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -22,6 +23,14 @@ class SecurityController extends Controller
      */
     public function loginAction(AuthenticationUtils $authenticationUtils)
     {
+
+
+//        $session = new Session();
+//        $session->set('username','bolek2');
+//        $session->isStarted();
+//        $session->clear();
+//
+//        echo $session->get('username');
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
